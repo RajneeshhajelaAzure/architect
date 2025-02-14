@@ -1,0 +1,51 @@
+Key Responsibilities:
+1. **Architectural Design & Strategy:**
+- Develop and maintain the enterprise architecture roadmap, ensuring it aligns with the business strategy.
+- Design scalable, secure, and robust cloud-based solutions using Microsoft Azure.
+- Establish architectural standards, guidelines, and best practices.
+2. **Solution Development & Integration:**
+- Lead the design and implementation of enterprise applications and services using .NET technologies.
+- Oversee the integration of various systems and applications to ensure seamless operation across the enterprise.
+- Collaborate with development teams to ensure solutions are implemented as designed and adhere to architectural standards.
+3. **Technical Leadership:**
+- Provide technical leadership and guidance to development teams, fostering an environment of continuous improvement and innovation.
+- Mentor junior architects and developers, helping them grow their technical skills and architectural knowledge.
+- Stay up-to-date with emerging technologies and industry trends to ensure our solutions remain current and competitive.
+4. **Stakeholder Engagement:**
+- Work closely with business leaders, IT management, and other stakeholders to understand business needs and translate them into technical solutions.
+- Communicate complex technical concepts to non-technical stakeholders in a clear and concise manner.
+- Facilitate architectural review sessions and ensure stakeholder buy-in for proposed solutions.
+5. **Governance & Compliance:**
+- Ensure all solutions comply with internal and external regulatory requirements, including security, privacy, and data protection standards.
+- Establish and enforce governance processes to ensure consistency and quality across all architectural initiatives.
+
+
+**Qualifications:**
+- **Education:**
+- Bachelors or Masters degree in Computer Science, Information Technology, or a related field.
+- **Experience:**
+- Minimum of 8-10+ years of experience in enterprise architecture, with a strong focus on Microsoft technologies.
+- Proven experience with Azure cloud services, including IaaS, PaaS, and SaaS.
+- Extensive experience with .NET framework, including ASP.NET, C#, and related technologies.
+
+
+- **Technical Skills:**
+- Deep understanding of cloud architecture and design principles.
+- Proficiency in designing and implementing microservices architectures.
+- Experience with DevOps practices and tools (e.g., Azure DevOps, CI/CD pipelines).
+- Knowledge of database technologies, including SQL Server and NoSQL databases.
+- **Soft Skills:**
+- Excellent problem-solving and analytical skills.
+- Strong communication and interpersonal skills.
+- Ability to work effectively in a collaborative, fast-paced environment.
+- Demonstrated leadership capabilities and experience in team mentoring.
+**Preferred Qualifications:**
+- Certifications in Microsoft Azure (e.g., Azure Solutions Architect Expert).
+- Experience with other cloud platforms and technologies.
+- Familiarity with agile methodologies and frameworks.
+**Compensation and Benefits:**
+- Competitive salary and performance-based incentives.
+- Comprehensive health, dental, and vision insurance.
+- Retirement savings plan with employer match.
+- Opportunities for professional development and continuous learning.
+- Flexible work arrangements.
