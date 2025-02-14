@@ -1,0 +1,177 @@
+==================
+Step 1
+Microsoft.EntityFrameworkCore;
+Microsoft.EntityFrameworkCore.Design
+Microsoft.EntityFrameworkCore.SQLServer
+Microsoft.EntityFrameworkCore.Tools
+
+Database=AuthenticationAppDb
+
+  "ConnectionStrings": {
+    // "DefaultConnection": "Server=YourServerName;Database=YourDatabaseName;User Id=YourUsername;Password=YourPassword;Trusted_Connection=True;MultipleActiveResultSets=true",
+    "DefaultConnection": "Server=localhost;Database=AuthenticationAppDb;User Id=sa;Password=47tDOnGwft58AqR3;TrustServerCertificate=True;"
+
+  },
+==============================
+Step 2
+public class ApplicationDbContext : DbContext
+{
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+    public DbSet<Product> Products { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+    }
+}
+
+
+public class Product
+{
+    public Guid Id { get;  set; }
+    public string Name { get;  set; }
+    public decimal Price { get;  set; }
+
+    public Product(string name, decimal price)
+    {
+        Id =new Guid();
+        Name = name;
+        Price = price;
+    }
+}
+
+Step 3
+Program.cs
+// Register the DbContext with DI
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+==========
+
+Step 4
+add-migration "init"
+update-database
+=========================================================================================================================================
+
+
+ProductApi.Domain  - Model
+ProductApi.Application (DTO, Services (IProductRepository, IProductService,ProductService) references ProductApi.Domain.
+ProductApi.Infrastructure(Data, logginging, migration, appdbcontext,Product repository) references ProductApi.Application and domain
+ProductApi.WebAPI references all other projects (ProductApi.Application, ProductApi.Infrastructure, and ProductApi.Domain).
+
+========
+
+==============================
+ProductApi.Application
+
+  public interface IProductRepository
+  {
+      Task<Product?> GetByIdAsync(Guid id);
+  }
+
+----------------
+public interface IProductService
+{
+    Task<ProductDto> GetByIdAsync(Guid id);
+   // Task<int> CreateProductAsync(ProductDto productDto);
+}
+
+    public class ProductDto
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+
+    }
+
+---------
+ public class ProductService : IProductService
+ {
+    private readonly IProductRepository _productRepository;
+
+    public ProductService(IProductRepository productRepository)
+    {
+        _productRepository = productRepository;
+    }
+
+    public async Task<ProductDto> GetByIdAsync(Guid id)
+    {
+        var product = await _productRepository.GetByIdAsync(id);
+        if (product == null) return null;
+
+        // Map entity to DTO
+        return new ProductDto
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Price = product.Price
+        };
+    }
+=============================================
+
+
+ProductApi.Infrastructure:
+new folder- Repository
+
+ public class ProductRepository : IProductRepository
+ {
+     private readonly ApplicationDbContext _context;
+
+     public ProductRepository(ApplicationDbContext context)
+     {
+         _context = context ?? throw new ArgumentNullException(nameof(context));
+     }
+     
+     public async Task<Product?> GetByIdAsync(Guid id)
+     {
+         if (_context.Products == null)
+         {
+             throw new InvalidOperationException("Products DbSet is not initialized.");
+         }
+
+         var product = await _context.Products.FindAsync(id);
+         return product; // This may return null if the product is not found.
+     }
+
+ }
+====================================
+
+====================================================
+[ApiController]
+[Route("api/[controller]")]
+public class ProductsController : ControllerBase
+{
+    private readonly IProductService _ProductService;
+
+    public ProductsController(IProductService ProductService)
+    {
+        _ProductService = ProductService;
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(Guid id)
+    {
+        var product = await _ProductService.GetByIdAsync(id);
+        return Ok(product);
+    }
+
+}
+=====================================================
+Program.cs
+// Register the DbContext with DI
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Register your repositories and services
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
+
+
+
+
+
+
+  insert into [test33].[dbo].[Products] (id, name,price) values(NEWID(), 'ABC',1)
+
+
+
