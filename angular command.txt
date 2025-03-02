@@ -1,0 +1,51 @@
+ng new angularCRUD
+npm install -g @angular/cli
+
+angular.json --> (which file.. where is file..etc) --style.css  ..... "./node_modules/bootstrap/dist/css/bootstrap.min.css"
+package.json --> versioning information      "@angular/cli": "^19.0.6",
+package-lock.json
+tsconfig.json
+
+npm install ngx-bootstrap bootstrap --save
+ angular.json--> 
+-----------------------------------
+index.html -->  <app-root></app-root>
+
+main.ts -->
+bootstrapApplication(AppComponent, appConfig)
+  .catch((err) => console.error(err));
+
+app.component.ts-->
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  imports: [RouterOutlet],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+})
+export class AppComponent {
+  title = 'AngularCRUD';
+}
+===============================================
+app.route.ts--->
+
+ import { Routes } from '@angular/router';
+  export const routes: Routes = [];
+
+app.config.ts--->
+
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes)]
+};
+==========
+
+npm install @angular/router @angular/forms
+
+

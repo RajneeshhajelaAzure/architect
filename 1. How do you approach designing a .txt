@@ -1,0 +1,43 @@
+1. How do you approach designing a scalable and secure architecture for a high-traffic application?
+Focus: Scalability, security, performance, and availability.
+Why they ask: This question evaluates your ability to design solutions that can handle growth and adhere to security best practices. Be prepared to discuss horizontal scaling, cloud-native solutions, and securing APIs.
+
+2. Can you explain how you have handled system integration in a large-scale enterprise project?
+Focus: Integration patterns, APIs, and middleware.
+Why they ask: Integration across legacy systems and modern platforms is a common challenge. Provide examples where you’ve used integration techniques such as message queues, API gateways, or microservices.
+
+3. Describe a time when you had to refactor or migrate a monolithic application to a microservices architecture.
+Focus: Migration strategy, challenges, and outcomes.
+Why they ask: They want to assess your experience with modernizing legacy systems and adopting microservices, including challenges like data consistency, orchestration, and service discovery.
+
+4. How do you ensure compliance and governance in your architectural designs?
+Focus: Governance, compliance, standards, and regulations.
+Why they ask: They want to see your understanding of regulatory frameworks (e.g., GDPR, HIPAA) and how you enforce compliance while designing solutions.
+
+5. How do you handle non-functional requirements (e.g., performance, latency, availability) in your architecture?
+Focus: Balancing NFRs with functional requirements.
+Why they ask: Architects must ensure systems meet critical performance and uptime expectations. Use examples to explain how you achieved high availability using solutions like caching, load balancing, or failover strategies.
+
+6. Describe a challenging situation where you had conflicting stakeholder requirements. How did you resolve it?
+Focus: Communication, collaboration, and problem-solving.
+Why they ask: Solution Architects often mediate between business and technical teams. Showcase your ability to balance priorities and negotiate solutions that align with business goals.
+
+7. What is your approach to managing technical debt in an enterprise system?
+Focus: Long-term maintainability and continuous improvement.
+Why they ask: They want to see how you prioritize improvements, reduce legacy dependencies, and align technical decisions with the business roadmap.
+
+8. Can you walk us through your process for creating a roadmap for a new IT solution?
+Focus: Strategic planning, milestones, and deliverables.
+Why they ask: This question evaluates your ability to balance immediate project needs with long-term business objectives, as well as your planning and prioritization skills.
+
+9. How do you approach ensuring data consistency and reliability in a distributed architecture?
+Focus: Eventual consistency, transactional integrity, and patterns like SAGA or CQRS.
+Why they ask: Distributed systems often deal with data synchronization challenges. They want to understand your experience with patterns to handle these challenges effectively.
+
+10. Can you explain a major failure or challenge you faced in a project and how you resolved it?
+Focus: Problem-solving, adaptability, and learning.
+Why they ask: They want to understand how you deal with unexpected challenges, mitigate risks, and ensure project success. Provide an example that highlights your proactive approach and collaboration.
+
+I don't want any escalation...
+
+

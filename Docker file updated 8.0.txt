@@ -1,0 +1,74 @@
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine	AS base
+WORKDIR /app
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+ENV TZ="Europe/Oslo"
+RUN apk add --no-cache icu-libs tzdata
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+RUN apt-get update && apt-get install -y tree
+
+# This block authenticates Docker with the private Nortura NuGet repo.
+# Pass "ACCESS_TOKEN" using --build-arg in docker build step
+ARG ACCESS_TOKEN
+ENV DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER 0
+ENV NUGET_CREDENTIALPROVIDER_SESSIONTOKENCACHE_ENABLED true
+ENV VSS_NUGET_EXTERNAL_FEED_ENDPOINTS '{"endpointCredentials": [{"endpoint":"https://pkgs.dev.azure.com/AzureNortura/MinSide2.0/_packaging/Nortura-MS2/nuget/v3/index.json", "username":"ArtifactsDocker", "password":"'"${ACCESS_TOKEN}"'"}]}'
+RUN wget -qO- https://raw.githubusercontent.com/Microsoft/artifacts-credprovider/master/helpers/installcredprovider.sh | bash
+
+WORKDIR /buildsrc
+COPY ["nuget.config", "."]
+COPY ["src", "src"]
+
+WORKDIR /buildsrc/services/PurchaseOrderService
+COPY ["services/PurchaseOrderService/", "."]
+RUN dotnet restore "PurchaseOrderService/PurchaseOrderService.csproj"
+
+WORKDIR /buildsrc/services/PurchaseOrderService/PurchaseOrderService
+RUN dotnet build "PurchaseOrderService.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "PurchaseOrderService.csproj" -c Release -o /app/publish
+RUN tree /app/publish
+RUN find /app/publish -name Microsoft.Identity.Client.dll
+
+FROM build AS api-spec
+# Extract API definition file
+WORKDIR /app/build
+RUN dotnet new tool-manifest
+RUN dotnet tool install --version 7.1.0 Swashbuckle.AspNetCore.Cli && \
+    dotnet tool restore && \
+    dotnet swagger "tofile" --output "/tmp/swagger_v1.json" "PurchaseOrderService.dll" v1
+
+# Extract DB migration script
+WORKDIR /buildsrc/services/PurchaseOrderService/PurchaseOrderService
+RUN dotnet new tool-manifest
+RUN dotnet tool install dotnet-ef --version 7.0.13 && \
+    dotnet tool restore && \
+    dotnet ef migrations script --output /tmp/dbMigrationScript.sql \
+    --context PurchaseOrderDbContext --idempotent
+
+FROM base AS final
+
+# Run the app as a non-privileged user (default is root)
+RUN adduser --disabled-password \
+  --home /app \
+  --gecos '' dotnetuser && chown -R dotnetuser /app
+
+USER dotnetuser
+WORKDIR /app
+
+# Bind to a port that doesn't require higher privileges
+EXPOSE 8080
+EXPOSE 8081
+ENV ASPNETCORE_URLS=http://*:8080
+
+COPY --from=publish /app/publish .
+COPY --from=api-spec /tmp/swagger_v1.json /tmp/
+COPY --from=api-spec /tmp/dbMigrationScript.sql /tmp/scripts/
+ENTRYPOINT ["dotnet", "PurchaseOrderService.dll"]
+
+
+
+
+ docker build --build-arg ACCESS_TOKEN=CkcOFC5SXAqqDYX8oC1p5g3CoqUT63vfaU5Nb0bCRybPZ1LjrH3pJQQJ99ALACAAAAAKbITsAAASAZDO5Ys0 --progress=plain -f .\services\SettlementService\SettlementService\Dockerfile .     
+
