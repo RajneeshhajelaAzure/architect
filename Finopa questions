@@ -1,0 +1,92 @@
+You're preparing for an Enterprise Architect role focusing on Azure FinOps and Center of Excellence (CoE). Below are the Top 10 Azure FinOps-related interview questions tailored for that context:
+
+
+---
+
+🔟 Top 10 Azure FinOps Interview Questions (Enterprise Architect / CoE Focus)
+
+
+---
+
+1. How do you align Azure FinOps strategies with business objectives at the enterprise level?
+
+Follow-up: How do you engage with business stakeholders and finance teams?
+
+
+
+---
+
+2. What governance model would you implement for managing cloud cost across multiple Azure subscriptions?
+
+Considerations: Management groups, tagging policies, RBAC, Azure Policy.
+
+
+
+---
+
+3. How do you establish a Cloud Center of Excellence (CCoE) to support FinOps in Azure?
+
+Follow-up: What roles, responsibilities, and practices do you recommend?
+
+
+
+---
+
+4. Explain how Azure Cost Management + Billing helps drive FinOps maturity.
+
+Follow-up: How would you use Azure Advisor or Budgets in this process?
+
+
+
+---
+
+5. What is your approach for implementing a chargeback/showback model in Azure for FinOps accountability?
+
+Considerations: Tags, resource groups, cost allocation rules.
+
+
+
+---
+
+6. How do Azure Reservations and Savings Plans contribute to FinOps optimization?
+
+Follow-up: When would you use which? How do you evaluate commitment risks?
+
+
+
+---
+
+7. Describe your experience integrating 3rd-party FinOps tools (e.g., Apptio Cloudability, CloudHealth, CloudZero) with Azure.
+
+Follow-up: What gaps do these tools fill compared to native Azure features?
+
+
+
+---
+
+8. What KPIs and dashboards would you define for FinOps reporting to CxOs and business units?
+
+Tools: Power BI, Azure Monitor, Log Analytics, or external BI tools.
+
+
+
+---
+
+9. How would you establish a culture of cost awareness and accountability across engineering teams?
+
+Follow-up: What communication and training mechanisms would you use?
+
+
+
+---
+
+10. Describe a real-world scenario where you reduced Azure cloud cost by implementing FinOps principles.
+
+Expect: Specific metrics, tools used, stakeholder involvement, and results.
+
+
+
+---
+
+Would you like model answers, or want me to quiz you and provide feedback on your answers?
+
