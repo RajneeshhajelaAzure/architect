@@ -1,0 +1,35 @@
+bpmn file
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                  id="Definitions_1"
+                  targetNamespace="http://example.com/bpmn">
+
+  <bpmn:process id="LoanOrchestration" name="Agentic Loan Orchestration" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_CustomerIntake" name="Customer Intake"/>
+    
+    <bpmn:scriptTask id="Task_DetectIntent" name="Detect Intent"/>
+    
+    <bpmn:exclusiveGateway id="Gateway_IntentRouting" name="Intent Routing"/>
+    
+    <bpmn:subProcess id="SubProcess_AgentValidation" name="Agent Validation">
+      <bpmn:scriptTask id="Task_VerifyKYC" name="Verify KYC"/>
+      <bpmn:scriptTask id="Task_CheckFraud" name="Check Fraud"/>
+      <bpmn:scriptTask id="Task_EvaluateCredit" name="Evaluate Credit Score"/>
+      <bpmn:exclusiveGateway id="Gateway_ValidationOutcome" name="Validation Outcome"/>
+    </bpmn:subProcess>
+    
+    <bpmn:exclusiveGateway id="Gateway_ApprovalDecision" name="Approval Decision"/>
+    
+    <bpmn:serviceTask id="Task_GenerateOffer" name="Generate Offer"/>
+    <bpmn:serviceTask id="Task_DisburseLoan" name="Disburse Loan"/>
+    <bpmn:serviceTask id="Task_MonitorLoan" name="Monitor Loan"/>
+    
+    <bpmn:endEvent id="EndEvent_Completed" name="Loan Completed"/>
+    <bpmn:endEvent id="EndEvent_Rejected" name="Loan Rejected"/>
+  </bpmn:process>
+</bpmn:definitions>
