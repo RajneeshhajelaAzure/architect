@@ -1,0 +1,54 @@
+import requests
+import json
+from openai import AzureOpenAI
+
+# --- CONFIGURATION ---
+GRAFANA_URL = "https://your-grafana-link.com"
+DASHBOARD_UID = "paste_uid_from_url_here" # e.g. 'c8f641f5'
+USER = "your_userid"
+PASS = "your_password"
+
+# Azure OpenAI Config
+client = AzureOpenAI(
+    azure_endpoint="https://your-resource.openai.azure.com/", 
+    api_key="your_azure_open_ai_key", api_version="2024-02-01"
+)
+
+# 1. Direct Pickup: Get Dashboard JSON
+print("🔍 Accessing Dashboard...")
+dash_resp = requests.get(f"{GRAFANA_URL}/api/dashboards/uid/{DASHBOARD_UID}", auth=(USER, PASS))
+dashboard = dash_resp.json()
+
+# 2. Extract Query from the "Process schedule" panel
+target_panel_title = "Process schedule" # Match your panel name exactly
+found_query = None
+datasource_uid = None
+
+for panel in dashboard['dashboard']['panels']:
+    if panel.get('title') == target_panel_title:
+        found_query = panel['targets'][0].get('rawSql') # or 'expr' for Prometheus
+        datasource_uid = panel['datasource'].get('uid')
+        break
+
+if not found_query:
+    print("❌ Could not find the panel. Check the title name.")
+    exit()
+
+print(f"✅ Found Query: {found_query[:50]}...")
+
+# 3. Execute the Query
+query_payload = {
+    "queries": [{"refId": "A", "datasource": {"uid": datasource_uid}, "rawSql": found_query}],
+    "from": "now-1h", "to": "now"
+}
+data_resp = requests.post(f"{GRAFANA_URL}/api/ds/query", auth=(USER, PASS), json=query_payload)
+
+# 4. Analyze with Azure OpenAI
+print("🤖 Asking Azure OpenAI to review the failure...")
+analysis = client.chat.completions.create(
+    model="your-deployment",
+    messages=[{"role": "user", "content": f"Review this Grafana DB response and tell me why it is failing/red:\n{data_resp.text}"}]
+)
+
+print("\n--- AI DIAGNOSIS ---")
+print(analysis.choices[0].message.content)
